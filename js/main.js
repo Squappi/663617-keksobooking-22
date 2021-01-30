@@ -16,5 +16,5 @@ function randomFloat(min, max) {
   return Math.fround(getExchange(min, max)).toFixed(2);
 }
 
-alert(getRandom(0, 100));
-alert(randomFloat(0, 100));
+alert(getRandom(0, 200));
+alert(randomFloat(0, 200));
