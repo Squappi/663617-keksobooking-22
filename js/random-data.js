@@ -10,7 +10,7 @@ let authors = [];
 
 for (let i = 0; i < 10; i++) {
     let author = {
-        avatar: 'img/avatars/user/0' + getRandom(1, 8) + '.png',
+        avatar: 'img/avatars/user0' + getRandom(1, 8) + '.png',
     };
     authors.push(author);
 }
