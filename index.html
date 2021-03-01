@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="leaflet/leaflet.css">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>Кексобукинг</title>
 </head>
@@ -25,33 +26,33 @@
 
             <!-- Фильтрация объявлений -->
             <div class="map__filters-container">
-                <form action="#" class="map__filters" autocomplete="off">
-                    <select name="housing-type" id="housing-type" class="map__filter">
+                <form action="#" class="map__filters " autocomplete="off" disabled>
+                    <select name="housing-type" id="housing-type" class="map__filter" disabled>
             <option value="any" selected>Любой тип жилья</option>
             <option value="palace">Дворец</option>
             <option value="flat">Квартира</option>
             <option value="house">Дом</option>
             <option value="bungalow">Бунгало</option>
           </select>
-                    <select name="housing-price" id="housing-price" class="map__filter">
+                    <select name="housing-price" id="housing-price" class="map__filter" disabled>
             <option value="any" selected>Любая</option>
             <option value="middle">10000 - 50000&#x20bd;</option>
             <option value="low">до 10000&#x20bd;</option>
             <option value="high">от 50000&#x20bd;</option>
           </select>
-                    <select name="housing-rooms" id="housing-rooms" class="map__filter">
+                    <select name="housing-rooms" id="housing-rooms" class="map__filter" disabled>
             <option value="any" selected>Любое число комнат</option>
             <option value="1">Одна комната</option>
             <option value="2">Две комнаты</option>
             <option value="3">Три комнаты</option>
           </select>
-                    <select name="housing-guests" id="housing-guests" class="map__filter">
+                    <select name="housing-guests" id="housing-guests" class="map__filter" disabled>
             <option value="any" selected>Любое число гостей</option>
             <option value="2">Два гостя</option>
             <option value="1">Один гость</option>
             <option value="0">Не для гостей</option>
           </select>
-                    <fieldset id="housing-features" class="map__features">
+                    <fieldset id="housing-features" class="map__features" disabled>
                         <input type="checkbox" name="features" value="wifi" id="filter-wifi" class="map__checkbox visually-hidden">
                         <label class="map__feature map__feature--wifi" for="filter-wifi">Wi-Fi</label>
                         <input type="checkbox" name="features" value="dishwasher" id="filter-dishwasher" class="map__checkbox visually-hidden">
@@ -72,8 +73,8 @@
         <!-- Форма объявления -->
         <section class="notice">
             <h2 class="notice__title">Ваше объявление</h2>
-            <form class="ad-form" method="post" enctype="multipart/form-data" autocomplete="off">
-                <fieldset class="ad-form-header">
+            <form class="ad-form ad-form--disabled" method="post" enctype="multipart/form-data" action="https://22.javascript.pages.academy/keksobooking" autocomplete="off">
+                <fieldset class="ad-form-header" disabled>
                     <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
                     <div class="ad-form-header__upload">
                         <div class="ad-form-header__preview">
@@ -87,15 +88,15 @@
                             о вашем жилье.</p>
                     </div>
                 </fieldset>
-                <fieldset class="ad-form__element ad-form__element--wide">
+                <fieldset class="ad-form__element ad-form__element--wide" disabled>
                     <label class="ad-form__label" for="title">Заголовок объявления</label>
                     <input id="title" name="title" type="text" placeholder="Милая, уютная квартирка в центре Токио">
                 </fieldset>
-                <fieldset class="ad-form__element ad-form__element--wide">
+                <fieldset class="ad-form__element ad-form__element--wide" disabled>
                     <label class="ad-form__label" for="address">Адрес (координаты)</label>
                     <input id="address" name="address" type="text">
                 </fieldset>
-                <fieldset class="ad-form__element">
+                <fieldset class="ad-form__element" disabled>
                     <label class="ad-form__label" for="type">Тип жилья</label>
                     <select id="type" name="type">
             <option value="bungalow">Бунгало</option>
@@ -106,9 +107,9 @@
                 </fieldset>
                 <fieldset class="ad-form__element">
                     <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-                    <input id="price" name="price" type="number" placeholder="5000">
+                    <input id="price" name="price" type="number" placeholder="1000" min="1000" max="1000000">
                 </fieldset>
-                <fieldset class="ad-form__element ad-form__element--time">
+                <fieldset class="ad-form__element ad-form__element--time" disabled>
                     <label class="ad-form__label" for="timein">Время заезда и выезда</label>
                     <select id="timein" name="timein">
             <option value="12:00" selected>После 12</option>
@@ -229,7 +230,8 @@
       <button type="button" class="error__button">Попробовать снова</button>
     </div>
   </template>
-    <script src="../js/main.js" type="module"></script>
+  <script src="../leaflet/leaflet.js"></script>
+  <script src="../js/main.js" type="module"></script>
 
 </body>
 

@@ -6,9 +6,9 @@ let elem = document.createElement('div');
 elem.append(template.content.cloneNode(true));
 
 // заполнить все
-elem.querySelector('.popup__title').innerHTML = offers[0].title;
+elem.querySelector('.popup__title').textContent = offers[0].title;
 // вывод адреса
-elem.querySelector('.popup__text--address').innerHTML = (offers[0].address.x + ' ' + offers[0].address.y);
+elem.querySelector('.popup__text--address').textContent = (offers[0].address.x + ' ' + offers[0].address.y);
 // вывод цены
 elem.querySelector('.popup__text--price').textContent = offers[0].price + ' ₽/ночь';
 // вывод комнат и гостей
@@ -38,4 +38,3 @@ case 'palace':
     elem.querySelector('.popup__type').textContent = 'Дворец';
 }
 
-document.querySelector('#map-canvas').append(elem);

@@ -1,12 +1,12 @@
-let titles = ['Квартира, в центре Москвы', 'Квартира в центре Новгорода', 'Уютрая квартира на окраине Токио', 'Роскошная квартира на берегу моря в Калининграде', 'Люкс квартира у гор Швейцарии'];
+let titles = ['Квартира, в центре Токио', 'Квартира на берегу Токио', 'Уютрая квартира на окраине Токио', 'Роскошная квартира на берегу моря в Токио', 'Люкс квартира недалеко от центра Токио'];
 let types = ['palace', 'flat', 'house', 'bungalow'];
 let checkins = ['12:00', '13:00', '14:00'];
 let checkouts = ['12:00', '13:00', '14:00'];
 let feature = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 let photo = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-let descriptions = ['Квартира с видом на город', 'Квартира с видом на площадь', 'Квартира с видом на лес', 'Квартира с видом моря', 'Квартира с видом на горы'];
+let descriptions = ['Квартира с видом на город', 'Квартира с видом на площадь', 'Квартира с видом на лес', 'Квартира с видом моря', 'Квартира с видом на пляж'];
 
-let authors = [];
+const authors = [];
 
 for (let i = 0; i < 10; i++) {
     let author = {
@@ -17,7 +17,7 @@ for (let i = 0; i < 10; i++) {
 
 const offers = [];
 
-let locations = [];
+const locations = [];
 
 for (let i = 0; i < 10; i++) {
     let location = {
@@ -33,7 +33,7 @@ function getRandomValue(min, max) {
 }
 
 
-const noRepite = (array) => {
+function noRepite(array) {
     const arrayLength = getRandomValue(1, array.length);
     const newArray = [array[getRandomValue(0, array.length - 1)]];
     for (let i = 1; i < arrayLength; i++) {
@@ -50,10 +50,16 @@ const noRepite = (array) => {
     return newArray;
 }
 
+function getLocation (position) {
+    let result = locations[position];
+    locations.splice(position, 1);
+    return result;
+}
+
 for (let i = 0; i < 10; i++) {
     let offer = {
         title: titles[getRandomValue(0, titles.length - 1)],
-        address: locations[getRandom(0, 1)],
+        address: getLocation(getRandom(0, locations.length - 1)),
         price: getRandom(0, 50000),
         type: types[getRandomValue(0, types.length - 1)],
         rooms: getRandom(0, 50),
