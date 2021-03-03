@@ -1,7 +1,19 @@
-import { locations, offers } from './random-data.js';
+import { offers } from './random-data.js';
 const mapFilter = document.querySelectorAll('.map__filter');
 const adFormMap = document.querySelector('.ad-form');
 const addForm = document.querySelectorAll('.ad-form__element');
+
+adFormMap.classList.add('ad-form--disabled');
+
+mapFilter.forEach(filter => {
+    filter.disabled = false;
+});
+
+addForm.forEach(filterForm => {
+    filterForm.disabled = false;
+});
+
+
 function getMapLoaded (value) {
     if (value === true) {
         adFormMap.classList.remove('ad-form--disabled');
@@ -13,35 +25,31 @@ function getMapLoaded (value) {
         addForm.forEach(filterForm => {
             filterForm.disabled = false;
         });
-    } else {
-        adFormMap.classList.add('ad-form--disabled');
-        mapFilter.forEach(filter => {
-            filter.disabled = true;
-        });
-
-        addForm.forEach(filterForm => {
-            filterForm.disabled = true;
-        });
     }
 }
 
-let flag = false;
+const map = L.map('map-canvas');
 
-const map = L.map('map-canvas')
-    .on('load', () => {
+if (adFormMap.classList.contains('ad-form--disabled')) {
+    map.on('load', () => {
+        window.addEventListener('load', () => {
+            adFormMap.classList.remove('ad-form--disabled');
+        });
         getMapLoaded(true);
     })
-    .setView({
-        lat: 	35.6895,
-        lng: 	139.692,
-    }, 10);
+        .setView({
+            lat: 	35.6895,
+            lng: 	139.692,
+        }, 10);
 
-L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-).addTo(map);
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        },
+    ).addTo(map);
+}
+
 
 
 const mainPinIcon = L.icon({
