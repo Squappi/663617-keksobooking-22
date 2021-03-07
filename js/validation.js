@@ -28,16 +28,18 @@ inputPrice.addEventListener('invalid', function() {
 roomNumber.addEventListener('change', function(e) {
     let room = roomNumber.options.selectedIndex;
     let valueSelect = roomNumber.options[room].value;
+    capacity.options.selectedIndex = room;
     for (let i = 0; i < capacity.options.length; i++) {
         if (valueSelect === '100') {
             if (capacity.options[i].value === '0') {
-                capacity.options[i].disabled='';
+                capacity.options[i].disabled = '';
             } else {
                 capacity.options[i].disabled='disabled';
             }
         } else {
             if (capacity.options[i].value <= valueSelect && capacity.options[i].value !== '0') {
-                capacity.options[i].disabled='';
+                capacity.options[i].disabled = '';
+                capacity.options.selectedIndex = e.target.options.selectedIndex;
             } else {
                 capacity.options[i].disabled='disabled';
             }
@@ -45,23 +47,4 @@ roomNumber.addEventListener('change', function(e) {
     }
 });
 
-capacity.addEventListener('change', function(e) {
-    let guests = capacity.options.selectedIndex;
-    let valueCapacity = capacity.options[guests].value;
-    for (let i = 0; i < roomNumber.options.length; i++) {
-        if (valueCapacity === '0') {
-            if (roomNumber.options[i].value === '100') {
-                roomNumber.options[i].disabled='';
-            } else {
-                roomNumber.options[i].disabled='disabled';
-            }
-        } else {
-            if (roomNumber.options[i].value <= valueCapacity && roomNumber.options[i].value !== '100') {
-                roomNumber.options[i].disabled='';
-            } else {
-                roomNumber.options[i].disabled='disabled';
-            }
-        }
-    }
-});
 
