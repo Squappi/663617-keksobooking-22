@@ -25,7 +25,7 @@ inputPrice.addEventListener('invalid', function() {
     }
 });
 
-roomNumber.addEventListener('change', function() {
+roomNumber.addEventListener('change', function(e) {
     let room = roomNumber.options.selectedIndex;
     let valueSelect = roomNumber.options[room].value;
     for (let i = 0; i < capacity.options.length; i++) {
@@ -40,6 +40,26 @@ roomNumber.addEventListener('change', function() {
                 capacity.options[i].disabled='';
             } else {
                 capacity.options[i].disabled='disabled';
+            }
+        }
+    }
+});
+
+capacity.addEventListener('change', function(e) {
+    let guests = capacity.options.selectedIndex;
+    let valueCapacity = capacity.options[guests].value;
+    for (let i = 0; i < roomNumber.options.length; i++) {
+        if (valueCapacity === '0') {
+            if (roomNumber.options[i].value === '100') {
+                roomNumber.options[i].disabled='';
+            } else {
+                roomNumber.options[i].disabled='disabled';
+            }
+        } else {
+            if (roomNumber.options[i].value <= valueCapacity && roomNumber.options[i].value !== '100') {
+                roomNumber.options[i].disabled='';
+            } else {
+                roomNumber.options[i].disabled='disabled';
             }
         }
     }
