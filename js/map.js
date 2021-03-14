@@ -109,13 +109,13 @@ function drawMap(offers) {
             );
 
         marker.on('moveend', (evt) => {
-            console.log(evt.target.getLatLng());
+            evt.target.getLatLng();
         });
         markerArray.push(marker);
     }
 }
 
-mapFilrersForm.addEventListener('change', function(evt) {
+mapFilrersForm.addEventListener('change', function() {
     for(let i = 0; i < markerArray.length; i++) {
         markerArray[i].remove();
     }

@@ -8,12 +8,10 @@ const mapFilter = 10;
 fetch('https://22.javascript.pages.academy/keksobooking/data')
     .then((response) => response.json())
     .then((keksobook) => {
-        console.log(keksobook);
         serverMassive = keksobook;
         drawMap(serverMassive.slice(0, mapFilter));
     });
 
 export { serverMassive };
 
-const userMessage = setUserFormSubmit(onSuccessMessage);
-console.log(userMessage);
+setUserFormSubmit(onSuccessMessage);

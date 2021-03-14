@@ -8,7 +8,7 @@ const submitForm = document.querySelector('.ad-form');
 const resetButton = document.querySelector('.ad-form__reset');
 
 
-inputTitle.addEventListener('invalid', function() {
+inputTitle.addEventListener( 'invalid', function() {
     if (inputTitle.validity.tooShort) {
         inputTitle.setCustomValidity('Имя должно состоять минимум из 30 символов');
     } else if (inputTitle.validity.tooLong) {
@@ -57,7 +57,6 @@ function setUserFormSubmit(onSuccess) {
         evt.preventDefault();
 
         const formData = new FormData(evt.target);
-        console.log(formData);
         fetch(
             'https://22.javascript.pages.academy/keksobooking',
             {
@@ -65,7 +64,6 @@ function setUserFormSubmit(onSuccess) {
                 body: formData,
             },
         ) .then((response) => {
-            console.log(response);
             if (response.ok) {
                 onSuccess();
                 submitForm.reset();
