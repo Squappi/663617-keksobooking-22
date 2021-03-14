@@ -8,7 +8,7 @@ const submitForm = document.querySelector('.ad-form');
 const resetButton = document.querySelector('.ad-form__reset');
 
 
-inputTitle.addEventListener('invalid', function() {
+inputTitle.addEventListener( 'invalid', function() {
     if (inputTitle.validity.tooShort) {
         inputTitle.setCustomValidity('Имя должно состоять минимум из 30 символов');
     } else if (inputTitle.validity.tooLong) {
