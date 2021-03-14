@@ -65,14 +65,14 @@ const mainPinIcon = L.icon({
     iconSize: [52, 52],
     iconAnchor: [26, 52],
 },
-)
+);
 
 const mainPin = L.icon({
     iconUrl: 'img/pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
 },
-)
+);
 
 function createCustomPopup(offer) {
     const template = document.querySelector('#card').content.querySelector('.popup');
