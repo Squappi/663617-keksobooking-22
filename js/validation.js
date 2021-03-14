@@ -1,7 +1,12 @@
+import { onErrorMessage } from './validation-message.js';
+
 const inputTitle = document.querySelector('#title');
 const inputPrice = document.querySelector('#price');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const submitForm = document.querySelector('.ad-form');
+const resetButton = document.querySelector('.ad-form__reset');
+
 
 inputTitle.addEventListener('invalid', function() {
     if (inputTitle.validity.tooShort) {
@@ -47,4 +52,35 @@ roomNumber.addEventListener('change', function(e) {
     }
 });
 
+function setUserFormSubmit(onSuccess) {
+    submitForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
 
+        const formData = new FormData(evt.target);
+        console.log(formData);
+        fetch(
+            'https://22.javascript.pages.academy/keksobooking',
+            {
+                method: 'POST',
+                body: formData,
+            },
+        ) .then((response) => {
+            console.log(response);
+            if (response.ok) {
+                onSuccess();
+                submitForm.reset();
+            } else {
+                onErrorMessage();
+            }
+        })
+            .catch(() => {
+                onErrorMessage();
+            });
+    });
+}
+
+resetButton.addEventListener('click', function() {
+    submitForm.reset();
+});
+
+export{ setUserFormSubmit } ;

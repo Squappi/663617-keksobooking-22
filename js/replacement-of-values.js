@@ -22,7 +22,6 @@ select.onchange = function(e) {
 
 timeIn.onchange = function(e) {
     timeOut.options.selectedIndex = e.target.options.selectedIndex;
-    console.log(timeOut.options);
 }
 
 timeOut.onchange = function(e) {
