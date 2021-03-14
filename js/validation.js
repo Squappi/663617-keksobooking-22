@@ -74,7 +74,7 @@ function setUserFormSubmit(onSuccess) {
             .catch(() => {
                 onErrorMessage();
             });
-    });
+    })
 }
 
 resetButton.addEventListener('click', function() {
