@@ -57,7 +57,6 @@ function setUserFormSubmit(onSuccess) {
         evt.preventDefault();
 
         const formData = new FormData(evt.target);
-        console.log(formData);
         fetch(
             'https://22.javascript.pages.academy/keksobooking',
             {
@@ -65,7 +64,6 @@ function setUserFormSubmit(onSuccess) {
                 body: formData,
             },
         ) .then((response) => {
-            console.log(response);
             if (response.ok) {
                 onSuccess();
                 submitForm.reset();
