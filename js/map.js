@@ -1,3 +1,6 @@
+/* global L:readonly */
+/* global _:readonly */
+
 import { serverMassive } from './module-server.js';
 
 const mapFilter = document.querySelectorAll('.map__filter');
@@ -121,16 +124,28 @@ mapFilrersForm.addEventListener('change', function() {
     }
     filterOffers = [];
     filterHouse();
+    console.log(filterOffers, 1);
     filterRooms();
+    console.log(filterOffers, 2);
     fitlerPrice();
+    console.log(filterOffers, 3);
     filterGuests();
+    console.log(filterOffers, 4);
     filterCheckboxWifi();
+    console.log(filterOffers, 5);
     filterCheckboxDishwasher();
+    console.log(filterOffers, 6);
     filterCheckboxParking();
+    console.log(filterOffers, 7);
     filterCheckboxWasher();
+    console.log(filterOffers, 8);
     filterCheckboxElevator();
+    console.log(filterOffers, 9);
     filterCheckboxConditioner();
-    drawMap(filterOffers);
+    console.log(filterOffers, 10);
+    const d = _.debounce(() => drawMap(filterOffers), 500);
+    d();
+    // drawMap(filterOffers);
 });
 
 function filterHouse() {
@@ -139,13 +154,14 @@ function filterHouse() {
     filterOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
+        console.log(offer.offer.type === optionValue );
         return offer.offer.type === optionValue || index === 0;
     });
 }
 
 function filterRooms() {
     let element = document.querySelector('#housing-rooms');
-    let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+    let offers = filterOffers;
     filterOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
@@ -155,30 +171,37 @@ function filterRooms() {
 
 function fitlerPrice() {
     let element = document.querySelector('#housing-price');
-    let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+    let offers = filterOffers;
     filterOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
+        console.log((optionValue === 'low' && offer.offer.price < 10000) ||
+        (optionValue === 'high' && offer.offer.price > 50000) ||
+        (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000));
         return (optionValue === 'low' && offer.offer.price < 10000) ||
         (optionValue === 'high' && offer.offer.price > 50000) ||
         (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000) || index === 0;
     });
+    console.log(filterOffers);
 }
 
 function filterGuests() {
     let element = document.querySelector('#housing-guests');
-    let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+    console.log(filterOffers, 777)
+    let offers = filterOffers;
     filterOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
+        console.log(optionValue, offer);
         return offer.offer.guests == optionValue || index === 0;
     });
+    console.log(offers, serverMassive);
 }
 
 function filterCheckboxWifi() {
     let element = document.querySelector('#filter-wifi');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('wifi');
         });
@@ -188,7 +211,7 @@ function filterCheckboxWifi() {
 function filterCheckboxDishwasher() {
     let element = document.querySelector('#filter-dishwasher');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('dishwasher');
         });
@@ -198,7 +221,7 @@ function filterCheckboxDishwasher() {
 function filterCheckboxParking() {
     let element = document.querySelector('#filter-parking');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('parking');
         });
@@ -208,7 +231,7 @@ function filterCheckboxParking() {
 function filterCheckboxWasher() {
     let element = document.querySelector('#filter-washer');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('washer');
         });
@@ -218,7 +241,7 @@ function filterCheckboxWasher() {
 function filterCheckboxElevator() {
     let element = document.querySelector('#filter-elevator');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('elevator');
         });
@@ -228,7 +251,7 @@ function filterCheckboxElevator() {
 function filterCheckboxConditioner() {
     let element = document.querySelector('#filter-conditioner');
     if (element.checked) {
-        let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
+        let offers = filterOffers;
         filterOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('conditioner');
         });
