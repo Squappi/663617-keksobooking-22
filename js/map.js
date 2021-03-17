@@ -7,8 +7,10 @@ const mapFilter = document.querySelectorAll('.map__filter');
 const adFormMap = document.querySelector('.ad-form');
 const addForm = document.querySelectorAll('.ad-form__element');
 const mapFilrersForm = document.querySelector('.map__filters');
+const addressForm = document.querySelector('#address');
+
 let markerArray = [];
-let filterOffers = [];
+let filteredOffers = [];
 const offerType = new Map();
 offerType.set('flat', 'Квартира');
 offerType.set('bungalow', 'Бунгало');
@@ -17,11 +19,11 @@ offerType.set('palace', 'Дворец');
 
 adFormMap.classList.add('ad-form--disabled');
 
-mapFilter.forEach(filter => {
+mapFilter.forEach(function(filter) {
     filter.disabled = true;
 });
 
-addForm.forEach(filterForm => {
+addForm.forEach(function(filterForm) {
     filterForm.disabled = true;
 });
 
@@ -30,12 +32,13 @@ function getMapLoaded (value) {
     if (value === true) {
         adFormMap.classList.remove('ad-form--disabled');
 
-        mapFilter.forEach(filter => {
+        mapFilter.forEach(function(filter) {
             filter.disabled = false;
         });
 
-        addForm.forEach(filterForm => {
+        addForm.forEach(function(filterForm) {
             filterForm.disabled = false;
+            addressForm.readOnly = true;
         });
     }
 }
@@ -105,15 +108,21 @@ function drawMap(offers) {
 
             },
         );
-        marker
-            .addTo(map)
-            .bindPopup(
-                createCustomPopup(offers[i]),
-            );
+        if (i !== 0) {
+            marker
+                .addTo(map)
+                .bindPopup(
+                    createCustomPopup(offers[i]),
+                );
+        } else {
+            marker.addTo(map);
+        }
 
-        marker.on('moveend', (evt) => {
-            evt.target.getLatLng();
-        });
+        if (i === 0) {
+            marker.on('moveend', function(evt) {
+                addressForm.value = evt.target.getLatLng();
+            });
+        }
         markerArray.push(marker);
     }
 }
@@ -122,36 +131,25 @@ mapFilrersForm.addEventListener('change', function() {
     for(let i = 0; i < markerArray.length; i++) {
         markerArray[i].remove();
     }
-    filterOffers = [];
+    filteredOffers = [];
     filterHouse();
-    console.log(filterOffers, 1);
     filterRooms();
-    console.log(filterOffers, 2);
     fitlerPrice();
-    console.log(filterOffers, 3);
     filterGuests();
-    console.log(filterOffers, 4);
     filterCheckboxWifi();
-    console.log(filterOffers, 5);
     filterCheckboxDishwasher();
-    console.log(filterOffers, 6);
     filterCheckboxParking();
-    console.log(filterOffers, 7);
     filterCheckboxWasher();
-    console.log(filterOffers, 8);
     filterCheckboxElevator();
-    console.log(filterOffers, 9);
     filterCheckboxConditioner();
-    console.log(filterOffers, 10);
-    const d = _.debounce(() => drawMap(filterOffers), 500);
+    const d = _.debounce(function() {drawMap(filteredOffers)}, 500);
     d();
-    // drawMap(filterOffers);
 });
 
 function filterHouse() {
     let element = document.querySelector('#housing-type');
-    let offers = (filterOffers.length === 0) ? serverMassive: filterOffers;
-    filterOffers = offers.filter(function(offer) {
+    let offers = (filteredOffers.length === 0) ? serverMassive: filteredOffers;
+    filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
         console.log(offer.offer.type === optionValue );
@@ -161,8 +159,8 @@ function filterHouse() {
 
 function filterRooms() {
     let element = document.querySelector('#housing-rooms');
-    let offers = filterOffers;
-    filterOffers = offers.filter(function(offer) {
+    let offers = filteredOffers;
+    filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
         return offer.offer.rooms == optionValue || index === 0;
@@ -171,8 +169,8 @@ function filterRooms() {
 
 function fitlerPrice() {
     let element = document.querySelector('#housing-price');
-    let offers = filterOffers;
-    filterOffers = offers.filter(function(offer) {
+    let offers = filteredOffers;
+    filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
         console.log((optionValue === 'low' && offer.offer.price < 10000) ||
@@ -182,14 +180,14 @@ function fitlerPrice() {
         (optionValue === 'high' && offer.offer.price > 50000) ||
         (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000) || index === 0;
     });
-    console.log(filterOffers);
+    console.log(filteredOffers);
 }
 
 function filterGuests() {
     let element = document.querySelector('#housing-guests');
-    console.log(filterOffers, 777)
-    let offers = filterOffers;
-    filterOffers = offers.filter(function(offer) {
+    console.log(filteredOffers, 777)
+    let offers = filteredOffers;
+    filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
         console.log(optionValue, offer);
@@ -201,8 +199,8 @@ function filterGuests() {
 function filterCheckboxWifi() {
     let element = document.querySelector('#filter-wifi');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('wifi');
         });
     }
@@ -211,8 +209,8 @@ function filterCheckboxWifi() {
 function filterCheckboxDishwasher() {
     let element = document.querySelector('#filter-dishwasher');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('dishwasher');
         });
     }
@@ -221,8 +219,8 @@ function filterCheckboxDishwasher() {
 function filterCheckboxParking() {
     let element = document.querySelector('#filter-parking');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('parking');
         });
     }
@@ -231,8 +229,8 @@ function filterCheckboxParking() {
 function filterCheckboxWasher() {
     let element = document.querySelector('#filter-washer');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('washer');
         });
     }
@@ -241,8 +239,8 @@ function filterCheckboxWasher() {
 function filterCheckboxElevator() {
     let element = document.querySelector('#filter-elevator');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('elevator');
         });
     }
@@ -251,8 +249,8 @@ function filterCheckboxElevator() {
 function filterCheckboxConditioner() {
     let element = document.querySelector('#filter-conditioner');
     if (element.checked) {
-        let offers = filterOffers;
-        filterOffers = offers.filter(function(offer) {
+        let offers = filteredOffers;
+        filteredOffers = offers.filter(function(offer) {
             return offer.offer.features.includes('conditioner');
         });
     }

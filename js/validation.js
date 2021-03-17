@@ -53,17 +53,18 @@ roomNumber.addEventListener('change', function(e) {
 });
 
 function setUserFormSubmit(onSuccess) {
-    submitForm.addEventListener('submit', (evt) => {
+    submitForm.addEventListener('submit', function(evt) {
         evt.preventDefault();
 
         const formData = new FormData(evt.target);
+        console.log(formData);
         fetch(
             'https://22.javascript.pages.academy/keksobooking',
             {
                 method: 'POST',
                 body: formData,
             },
-        ) .then((response) => {
+        ).then(function (response) {
             if (response.ok) {
                 onSuccess();
                 submitForm.reset();
@@ -71,7 +72,7 @@ function setUserFormSubmit(onSuccess) {
                 onErrorMessage();
             }
         })
-            .catch(() => {
+            .catch(function () {
                 onErrorMessage();
             });
     })
