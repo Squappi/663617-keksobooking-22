@@ -1,3 +1,4 @@
+import { filterMarker } from './map.js';
 import { onErrorMessage } from './validation-message.js';
 
 const inputTitle = document.querySelector('#title');
@@ -6,6 +7,7 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const submitForm = document.querySelector('.ad-form');
 const resetButton = document.querySelector('.ad-form__reset');
+const filterForm = document.querySelector('.map__filters');
 
 
 inputTitle.addEventListener( 'invalid', function() {
@@ -68,6 +70,8 @@ function setUserFormSubmit(onSuccess) {
             if (response.ok) {
                 onSuccess();
                 submitForm.reset();
+                filterForm.reset();
+                filterMarker();
             } else {
                 onErrorMessage();
             }
@@ -80,6 +84,8 @@ function setUserFormSubmit(onSuccess) {
 
 resetButton.addEventListener('click', function() {
     submitForm.reset();
+    filterForm.reset();
+    filterMarker();
 });
 
 export{ setUserFormSubmit } ;

@@ -90,6 +90,14 @@ function createCustomPopup(offer) {
     contentPopup.querySelector('.popup__text--capacity').textContent = offer.offer.capacity;
     contentPopup.querySelector('.popup__text--time').textContent = offer.offer.checkin + ' ' + offer.offer.checkout;
     contentPopup.querySelector('.popup__avatar').src = offer.author.avatar;
+    contentPopup.querySelector('.popup__photo').src = (offer.offer.photos.length !== 0) ? offer.offer.photos[0]:'';
+    const photos = contentPopup.querySelector('.popup__photos');
+    for (let i = 1; i < offer.offer.photos.length; i++) {
+        const popupPhoto = contentPopup.querySelector('.popup__photo');
+        const contentPhoto = popupPhoto.cloneNode(true);
+        contentPhoto.src = offer.offer.photos[i];
+        photos.append(contentPhoto);
+    }
 
     return contentPopup;
 }
@@ -120,14 +128,15 @@ function drawMap(offers) {
 
         if (i === 0) {
             marker.on('moveend', function(evt) {
-                addressForm.value = evt.target.getLatLng();
+                let locationMap = evt.target.getLatLng();
+                addressForm.value = locationMap.lat.toFixed(5) + ' , ' + locationMap.lng.toFixed(5);
             });
         }
         markerArray.push(marker);
     }
 }
 
-mapFilrersForm.addEventListener('change', function() {
+function filterMarker() {
     for(let i = 0; i < markerArray.length; i++) {
         markerArray[i].remove();
     }
@@ -144,7 +153,9 @@ mapFilrersForm.addEventListener('change', function() {
     filterCheckboxConditioner();
     const d = _.debounce(function() {drawMap(filteredOffers)}, 500);
     d();
-});
+}
+
+mapFilrersForm.addEventListener('change', filterMarker);
 
 function filterHouse() {
     let element = document.querySelector('#housing-type');
@@ -152,7 +163,6 @@ function filterHouse() {
     filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
-        console.log(offer.offer.type === optionValue );
         return offer.offer.type === optionValue || index === 0;
     });
 }
@@ -173,9 +183,6 @@ function fitlerPrice() {
     filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
-        console.log((optionValue === 'low' && offer.offer.price < 10000) ||
-        (optionValue === 'high' && offer.offer.price > 50000) ||
-        (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000));
         return (optionValue === 'low' && offer.offer.price < 10000) ||
         (optionValue === 'high' && offer.offer.price > 50000) ||
         (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000) || index === 0;
@@ -185,7 +192,6 @@ function fitlerPrice() {
 
 function filterGuests() {
     let element = document.querySelector('#housing-guests');
-    console.log(filteredOffers, 777)
     let offers = filteredOffers;
     filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
@@ -193,7 +199,6 @@ function filterGuests() {
         console.log(optionValue, offer);
         return offer.offer.guests == optionValue || index === 0;
     });
-    console.log(offers, serverMassive);
 }
 
 function filterCheckboxWifi() {
@@ -256,4 +261,4 @@ function filterCheckboxConditioner() {
     }
 }
 
-export {drawMap};
+export { drawMap, filterMarker };

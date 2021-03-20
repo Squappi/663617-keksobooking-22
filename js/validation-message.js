@@ -8,6 +8,13 @@ function onSuccessMessage() {
     messageSuccess.addEventListener('click', function() {
         document.querySelector('.success').remove();
     });
+    messageSuccess.tabIndex = '-1';
+    messageSuccess.focus();
+    messageSuccess.addEventListener('keydown', function(evt) {
+        if(evt.keyCode === 27) {
+            document.querySelector('.success').remove();
+        }
+    });
     return contentSuccess;
 }
 
@@ -21,10 +28,19 @@ function onErrorMessage() {
             closeErrorMessage();
         }
     });
+
     let buttonErr = document.querySelector('.error__button');
     buttonErr.addEventListener('click', function() {
         if(document.querySelector('.error')) {
             closeErrorMessage();
+        }
+    });
+
+    errorMessage.tabIndex = '-1';
+    errorMessage.focus();
+    errorMessage.addEventListener('keydown', function(evt) {
+        if(evt.keyCode === 27) {
+            document.querySelector('.error').remove();
         }
     });
     return contentError;
