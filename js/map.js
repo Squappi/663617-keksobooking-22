@@ -187,7 +187,6 @@ function fitlerPrice() {
         (optionValue === 'high' && offer.offer.price > 50000) ||
         (optionValue === 'middle' && offer.offer.price > 10000 && offer.offer.price < 50000) || index === 0;
     });
-    console.log(filteredOffers);
 }
 
 function filterGuests() {
@@ -196,7 +195,6 @@ function filterGuests() {
     filteredOffers = offers.filter(function(offer) {
         let index = element.selectedIndex;
         let optionValue = element.options[index].value;
-        console.log(optionValue, offer);
         return offer.offer.guests == optionValue || index === 0;
     });
 }
